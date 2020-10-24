@@ -80,11 +80,16 @@ function RouterConfig({ history, app }) {
     app,
     component: () => import("./routes/cameras"),
   });
+  const Login = Dynamic({
+    app,
+    component: () => import("./routes/login"),
+  });
   return (
     <Router history={history}>
       <Switch>
-        <Route exact path="/" component={Cameras} />
-        <Route exact path="/page01" component={Page01} />
+        <Route exact path="/cameras" component={Cameras} />
+        <Route exact path="/" component={Login} />
+        {/* <Route exact path="/page01" component={Page01} />
         <Route exact path="/supervision" component={Supervision} />
         <Route exact path="/project-overview" component={ProjectOverview} />
         <Route exact path="/workers-condition" component={WorkersCondition} />
@@ -100,7 +105,7 @@ function RouterConfig({ history, app }) {
         />
         <Route exact path="/supply-chain2" component={SupplyChainMa2} />
         <Route exact path="/more-data" component={MoreData} />
-        <Route exact path="/device-more-data" component={DeviceMoreData} />
+        <Route exact path="/device-more-data" component={DeviceMoreData} /> */}
       </Switch>
     </Router>
   );
