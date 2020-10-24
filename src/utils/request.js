@@ -2,6 +2,9 @@ import qs from "qs";
 import _ from "lodash";
 import Axios from "axios";
 import { Toast } from "antd-mobile";
+import { message } from "antd";
+import "antd/lib/message/style/css"; // 加载 CSS
+
 // import bowser from "bowser";
 
 const reqConfig = {
@@ -66,39 +69,19 @@ function checkStatus(resp) {
   if (resp.status >= 200 && resp.status < 300) {
     return resp;
   }
-  Toast.info("网络异常，请重试");
+  message.error("网络异常，请重试");
   return throwReqError(resp);
 }
 
-function throwSrvError(data) {
-  const error = new Error(data.msg);
-  error.srv = data;
-  return Promise.reject(error);
-}
-
 function checkCode(data) {
-  // if (data.code === -1) {
-  //   bowser.android
-  //     ? window.mobile.tokenTiemOut()
-  //     : window.webkit.messageHandlers.tokenTimeOut.postMessage({
-  //         body: "token 过期",
-  //       });
-  //   return;
-  // }
-  // if (data.code !== 0) {
-  //   Toast.info(data.msg, 3);
-  //   return;
-  // }
+  if (data.errorCode !== 0) {
+    message.error(data.message);
+    return throwReqError(data.message);
+  }
   return data.data;
 }
 
-function handleReqError(err) {
-  if (Axios.isCancel(err)) {
-    console.warn("Request canceled", err.message);
-  }
-
-  throw err;
-}
+function handleReqError(err) {}
 
 function handleRequest(req) {
   return req.promise

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "dva";
 import { Input, Button, Icon, Checkbox, message } from "antd";
+import { routerRedux } from "dva/router";
 import textImg from "../../assets/image/txt.png";
 import tipImg from "../../assets/image/向下.svg";
 import "antd/lib/input/style/css"; // 加载 CSS
@@ -50,19 +51,22 @@ class Index extends React.PureComponent {
       message.warn("请输入密码");
       return;
     }
-    loginService({ name, password, isRemember }).then((res) => {
-      sessionStorage.setItem("accessToken", res.accessToken);
-      if (isRemember) {
-        localStorage.setItem("name", name);
-        localStorage.setItem("password", password);
-        localStorage.setItem("isRemember", "true");
-      } else {
-        localStorage.removeItem("name");
-        localStorage.removeItem("password");
-        localStorage.removeItem("isRemember");
-      }
-      console.log(res);
-    });
+    loginService({ name, password, isRemember })
+      .then((res) => {
+        message.success("登录成功");
+        sessionStorage.setItem("accessToken", res.accessToken);
+        if (isRemember) {
+          localStorage.setItem("name", name);
+          localStorage.setItem("password", password);
+          localStorage.setItem("isRemember", "true");
+        } else {
+          localStorage.removeItem("name");
+          localStorage.removeItem("password");
+          localStorage.removeItem("isRemember");
+        }
+        this.props.routerGo("/cameras");
+      })
+      .catch((err) => {});
   };
 
   render() {
@@ -110,8 +114,19 @@ class Index extends React.PureComponent {
     );
   }
 }
-function mapStateToProps() {
-  return {};
+function mapDispatchToProps(dispatch) {
+  return {
+    routerGo(path, data = {}) {
+      dispatch(
+        routerRedux.push({
+          pathname: path,
+          state: {
+            ...data,
+          },
+        })
+      );
+    },
+  };
 }
 
-export default connect(mapStateToProps)(Index);
+export default connect(null, mapDispatchToProps)(Index);
