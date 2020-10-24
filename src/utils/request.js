@@ -1,11 +1,11 @@
-import qs from 'qs';
-import _ from 'lodash';
-import Axios from 'axios';
-import {Toast} from 'antd-mobile'
-import bowser from 'bowser'
+import qs from "qs";
+import _ from "lodash";
+import Axios from "axios";
+import { Toast } from "antd-mobile";
+// import bowser from "bowser";
 
 const reqConfig = {
-  withCredentials: true
+  withCredentials: true,
 };
 
 const Request = Axios.create(reqConfig);
@@ -15,41 +15,45 @@ function fetch(method, url, data, inConfig = false) {
   const cancelToken = new Axios.CancelToken((c) => {
     cancel = c;
   });
-
-  const promise = (inConfig
+  const promise = inConfig
     ? Request[method](url, {
-      params: data,
-      cancelToken
-    })
+        params: data,
+        cancelToken,
+        headers: {
+          Authorization: "Bearer" + sessionStorage.getItem("accessToken"),
+        },
+      })
     : Request[method](url, data, {
-      cancelToken
-    })
-  );
+        cancelToken,
+        headers: {
+          Authorization: "Bearer" + sessionStorage.getItem("accessToken"),
+        },
+      });
 
   return {
     promise,
-    cancel
+    cancel,
   };
 }
 
 function get(url, data) {
-  return fetch('get', url, data, true);
+  return fetch("get", url, data, true);
 }
 
 function post(url, data) {
-  return fetch('post', url, data, false);
+  return fetch("post", url, data, false);
 }
 
 function put(url, data) {
-  return fetch('put', url, data, false);
+  return fetch("put", url, data, false);
 }
 
 function patch(url, data) {
-  return fetch('patch', url, data, false);
+  return fetch("patch", url, data, false);
 }
 
 function del(url, data) {
-  return fetch('delete', url, data, true);
+  return fetch("delete", url, data, true);
 }
 
 function throwReqError(resp) {
@@ -59,10 +63,10 @@ function throwReqError(resp) {
 }
 
 function checkStatus(resp) {
-  if ((resp.status >= 200) && (resp.status < 300)) {
+  if (resp.status >= 200 && resp.status < 300) {
     return resp;
   }
-  Toast.info('网络异常，请重试')
+  Toast.info("网络异常，请重试");
   return throwReqError(resp);
 }
 
@@ -73,20 +77,24 @@ function throwSrvError(data) {
 }
 
 function checkCode(data) {
-  if ( data.code === -1 ) {
-    bowser.android ? window.mobile.tokenTiemOut() : window.webkit.messageHandlers.tokenTimeOut.postMessage({body: 'token 过期'});
-    return
-  }
-  if (data.code !== 0) {
-    Toast.info(data.msg, 3);
-    return;
-  }
+  // if (data.code === -1) {
+  //   bowser.android
+  //     ? window.mobile.tokenTiemOut()
+  //     : window.webkit.messageHandlers.tokenTimeOut.postMessage({
+  //         body: "token 过期",
+  //       });
+  //   return;
+  // }
+  // if (data.code !== 0) {
+  //   Toast.info(data.msg, 3);
+  //   return;
+  // }
   return data.data;
 }
 
 function handleReqError(err) {
   if (Axios.isCancel(err)) {
-    console.warn('Request canceled', err.message);
+    console.warn("Request canceled", err.message);
   }
 
   throw err;
@@ -95,19 +103,18 @@ function handleReqError(err) {
 function handleRequest(req) {
   return req.promise
     .then(checkStatus)
-    .then(resp => resp.data)
+    .then((resp) => resp.data)
     .then(checkCode)
-    .catch(handleReqError)
+    .catch(handleReqError);
 }
 
-export function   getJson(url, data) {
+export function getJson(url, data) {
   const _data = data ? _.cloneDeep(data) : {};
   _data._t_ = _.now();
   return handleRequest(get(url, _data));
 }
 
 export function postJson(url, data) {
-  console.log(url)
   return handleRequest(post(url, data));
 }
 

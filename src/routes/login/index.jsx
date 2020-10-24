@@ -1,12 +1,14 @@
 import React from "react";
 import { connect } from "dva";
-import { Input, Button, Icon, Checkbox } from "antd";
+import { Input, Button, Icon, Checkbox, message } from "antd";
 import textImg from "../../assets/image/txt.png";
 import tipImg from "../../assets/image/向下.svg";
 import "antd/lib/input/style/css"; // 加载 CSS
 import "antd/lib/button/style/css"; // 加载 CSS
 import "antd/lib/icon/style/css"; // 加载 CSS
 import "antd/lib/checkbox/style/css"; // 加载 CSS
+import "antd/lib/message/style/css"; // 加载 CSS
+
 import "./index.less";
 import { loginService } from "../../services/query";
 
@@ -17,9 +19,9 @@ class Index extends React.PureComponent {
     super(props);
     this.state = {
       isFirstStep: true,
-      name: "",
-      password: "",
-      isRemember: false,
+      name: localStorage.getItem("name") || "",
+      password: localStorage.getItem("password") || "",
+      isRemember: localStorage.getItem("isRemember") === "true" || false,
     };
   }
 
@@ -40,7 +42,25 @@ class Index extends React.PureComponent {
 
   onLogin = () => {
     const { password, name, isRemember } = this.state;
+    if (!name) {
+      message.warn("请输入用户名");
+      return;
+    }
+    if (!password) {
+      message.warn("请输入密码");
+      return;
+    }
     loginService({ name, password, isRemember }).then((res) => {
+      sessionStorage.setItem("accessToken", res.accessToken);
+      if (isRemember) {
+        localStorage.setItem("name", name);
+        localStorage.setItem("password", password);
+        localStorage.setItem("isRemember", "true");
+      } else {
+        localStorage.removeItem("name");
+        localStorage.removeItem("password");
+        localStorage.removeItem("isRemember");
+      }
       console.log(res);
     });
   };
