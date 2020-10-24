@@ -1,0 +1,103 @@
+@import "../../theme/theme.less";
+@import "../../theme/mixin.less";
+
+@prefixCls: left-oio;
+
+.@{prefixCls} {
+  width: 252px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #6474d3;
+  opacity: 0.8;
+  box-shadow: inset 2px 2px 2px #6474d3;
+  color: #fff;
+  height: ~"calc(100vh - 102px)";
+
+  .top-tag {
+    width: 145px;
+    height: 0;
+    margin-left: 50px;
+    border-top: 31px solid #2268a4;
+    border-right: 17px solid transparent;
+    border-left: 17px solid transparent;
+
+    > span {
+      position: relative;
+      top: -28px;
+      left: 38px;
+      font-size: 17px;
+    }
+  }
+
+  .title1 {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    height: 34px;
+    padding-left: 26px;
+    border-bottom: 1px solid #27588a;
+    position: relative;
+    cursor: pointer;
+    & > div:nth-child(1) {
+      height: 16px;
+      width: 5px;
+      background-color: #28a3f0;
+      border-radius: 2px;
+      margin-right: 8px;
+    }
+
+    .am-icon {
+      position: absolute;
+      right: 4px;
+      color: #41a5d8;
+    }
+  }
+
+  .btns {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    margin: 18px 0 0 42px;
+
+    > div {
+      height: 26px;
+      width: 59px;
+      background: #e3eaf147;
+      color: #fff;
+      line-height: 26px;
+      text-align: center;
+      margin-right: 6px;
+      cursor: pointer;
+      .setTapActive(#2268a4);
+    }
+
+    .checked {
+      background-color: #2268a4;
+    }
+  }
+
+  .tree {
+    max-height: ~"calc(100vh - 252px)";
+    overflow-y: scroll;
+  }
+
+  .child {
+    width: 240px;
+    height: 35px;
+    margin-left: 11px;
+    padding-left: 25px;
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    cursor: pointer;
+    color: #41a5d8;
+    > img {
+      width: 16px;
+      height: 11px;
+      margin-right: 6px;
+    }
+  }
+  .check {
+    color: #ffc066;
+  }
+}

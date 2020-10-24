@@ -1,0 +1,99 @@
+@import "../../theme/theme.less";
+@import "../../theme/mixin.less";
+
+@prefixCls: cameras-view74aa1b;
+
+.@{prefixCls} {
+  &-main {
+    padding: 0 13px;
+    display: flex;
+    justify-content: space-between;
+
+    .right {
+      margin-left: 50px;
+      margin-top: 20px;
+      margin-right: 40px;
+      flex: 1;
+
+      .tips {
+        font-size: 17px;
+        color: #41a5d8;
+        margin-left: 4px;
+      }
+
+      .radios-wrap {
+        width: 100%;
+        // height: 600px;
+        margin-top: 1px;
+        display: flex;
+        flex-wrap: wrap;
+        // justify-content: space-around;
+      }
+
+      .two {
+        > div {
+          width: 49.2%;
+          margin: 4px;
+        }
+      }
+      .three {
+        > div {
+          width: 32.7%;
+          margin: 3px;
+
+          .v-right {
+            width: 260px;
+          }
+
+          .v-name {
+            font-size: 13px;
+          }
+
+          .v-tip {
+            transform: scale(0.8);
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap;
+          }
+
+          .xzbd {
+            transform: scale(0.9);
+            word-break: keep-all; /* 不换行 */
+            white-space: nowrap;
+          }
+
+          img {
+            transform: scale(0.9) !important;
+          }
+        }
+      }
+      .one {
+        > div {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .page-line {
+    text-align: center;
+    margin-top: 10px;
+
+    .ant-pagination-item {
+      background: #0e77ca26;
+      border: 1px solid #27588a;
+      > a {
+        color: #dddddd;
+      }
+    }
+    .ant-pagination-item-active {
+      background: #0e77cac7 !important;
+      > a {
+        color: #ffffff !important;
+      }
+    }
+    .ant-pagination-item-link {
+      background: #0e77ca26;
+      border: 1px solid #27588a;
+      color: #dddddd;
+    }
+  }
+}

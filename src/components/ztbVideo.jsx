@@ -1,0 +1,90 @@
+/**
+ * Created by jdf-zhongtingbing on 2017/6/6.
+ */
+import React from "react";
+import { Slider } from "antd";
+// import classNames from "classnames";
+import qpImg from "../assets/image/全屏.svg";
+import sxtImg from "../assets/image/摄像头 (2).svg";
+import jtImg from "../assets/image/截图.svg";
+import ylImg from "../assets/image/音量.svg";
+import "antd/lib/slider/style/css"; // 加载 CSS
+
+// import "antd/dist/antd.css";
+
+import "./ztbVideo.less";
+
+const prefixCls = "video-ztb";
+
+export default class ZtbVideo extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      playing: false,
+      voice: 30,
+    };
+  }
+
+  onFull = () => {
+    this.video.requestFullscreen();
+  };
+
+  start = () => {
+    this.video.play();
+    this.setState({
+      playing: true,
+    });
+  };
+
+  voiceChange = (voice) => {
+    this.setState({ voice });
+    this.video.volume = voice / 100;
+  };
+
+  render() {
+    const {
+      className,
+      srcUrl = "https://www.runoob.com/try/demo_source/mov_bbb.mp4",
+    } = this.props;
+    const { playing, voice } = this.state;
+
+    return (
+      <div className="video-ztb-wrap">
+        <div className="video-ztb">
+          <video ref={(refs) => (this.video = refs)} width="100%" muted>
+            <source src={srcUrl} />
+          </video>
+          {!playing && (
+            <div onClick={this.start} className="start-btn">
+              <div />
+            </div>
+          )}
+
+          <div className="video-btns">
+            <div className="v-name">东北角001</div>
+            <div className="v-right">
+              <div className="v-tip">延时播放</div>
+              <div className="v-tip">回放</div>
+              <div className="v-tip">标/高清</div>
+              <div className="v-tip">状态:正常</div>
+              <img className="w17-13" src={sxtImg} />
+              <div className="w15-15">
+                <img src={ylImg} />
+                <Slider
+                  value={voice}
+                  onChange={this.voiceChange}
+                  className="yl-control"
+                  vertical
+                />
+              </div>
+
+              <img className="w16-16" src={jtImg} />
+              <img onClick={this.onFull} className="w13-13" src={qpImg} />
+              <div className="xzbd">下载本地</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
