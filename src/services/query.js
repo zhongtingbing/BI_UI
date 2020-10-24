@@ -48,5 +48,8 @@ export function projectOverviewService() {
 }
 
 export function loginService(params) {
-  return postJson(`/Account/post_Account_SignIn`, params);
+  return postJson(
+    `http://api.site.dev.axlcloud.cn/labor/Account/SignIn`,
+    params
+  );
 }
