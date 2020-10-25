@@ -5,6 +5,7 @@ import Left from "./left";
 import Video from "components/ztbVideo";
 import { Pagination } from "antd";
 import "antd/lib/pagination/style/css"; // 加载 CSS
+import { getProjectService } from "../../services/query";
 import "./index.less";
 
 const prefixCls = "cameras-view74aa1b";
@@ -68,6 +69,7 @@ class Index extends React.PureComponent {
     // var myVideo = document.getElementById("video1");
     // if (myVideo.paused) myVideo.play();
     // else myVideo.pause();
+    getProjectService().then((res) => {});
   }
 
   typeChange = (radioType) => {

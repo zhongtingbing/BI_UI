@@ -53,3 +53,10 @@ export function loginService(params) {
     params
   );
 }
+
+export function getProjectService(params) {
+  return postJson(
+    `http://api.bis.dev.axlcloud.cn/help/Project/GetPrjMaps`,
+    params
+  );
+}

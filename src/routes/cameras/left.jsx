@@ -1,6 +1,9 @@
 import React from "react";
 import { Icon } from "antd-mobile";
 import weatherImg from "../../assets/image/icon01.png";
+import sxtImg from "../../assets/image/摄像头.svg";
+import sxtImg2 from "../../assets/image/摄像头 (2).svg";
+
 import "./left.less";
 const prefixCls = "left-oio";
 class Left extends React.PureComponent {
@@ -96,7 +99,7 @@ class Left extends React.PureComponent {
                           onChange(child.id, item.value, child.value);
                         }}
                       >
-                        <img src={weatherImg} />
+                        <img src={value === child.id ? sxtImg : sxtImg2} />
                         <span>{child.value}</span>
                       </div>
                     );
