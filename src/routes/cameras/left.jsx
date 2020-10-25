@@ -1,6 +1,5 @@
 import React from "react";
 import { Icon } from "antd-mobile";
-import weatherImg from "../../assets/image/icon01.png";
 import sxtImg from "../../assets/image/摄像头.svg";
 import sxtImg2 from "../../assets/image/摄像头 (2).svg";
 
@@ -23,6 +22,9 @@ class Left extends React.PureComponent {
     this.setState({
       expendList: newList,
     });
+    if (expendList.indexOf(index) === -1) {
+      this.props.onPaClick(index);
+    }
   };
 
   render() {
@@ -81,7 +83,7 @@ class Left extends React.PureComponent {
                   }}
                 >
                   <div />
-                  <div>{item.value}</div>
+                  <div>{item.name}</div>
                   <Icon type={expendList.indexOf(index) > -1 ? "up" : "down"} />
                 </div>
                 <div
@@ -90,17 +92,26 @@ class Left extends React.PureComponent {
                     display: expendList.indexOf(index) > -1 ? "block" : "none",
                   }}
                 >
-                  {item.children.map((child, index) => {
+                  {item.devices.map((child, index) => {
                     return (
                       <div
-                        className={`${value === child.id ? "check" : ""} child`}
+                        className={`${
+                          value === child.deviceId ? "check" : ""
+                        } child`}
                         key={index}
                         onClick={() => {
-                          onChange(child.id, item.value, child.value);
+                          onChange(
+                            child.deviceId,
+                            item.name,
+                            child.name,
+                            child.url
+                          );
                         }}
                       >
-                        <img src={value === child.id ? sxtImg : sxtImg2} />
-                        <span>{child.value}</span>
+                        <img
+                          src={value === child.deviceId ? sxtImg : sxtImg2}
+                        />
+                        <span>{child.name}</span>
                       </div>
                     );
                   })}

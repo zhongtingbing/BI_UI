@@ -23,13 +23,15 @@ function fetch(method, url, data, inConfig = false) {
         params: data,
         cancelToken,
         headers: {
-          Authorization: "Bearer" + sessionStorage.getItem("accessToken"),
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+          ProjectId: sessionStorage.getItem("ProjectId"),
         },
       })
     : Request[method](url, data, {
         cancelToken,
         headers: {
-          Authorization: "Bearer" + sessionStorage.getItem("accessToken"),
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+          ProjectId: sessionStorage.getItem("ProjectId"),
         },
       });
 

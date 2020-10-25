@@ -46,15 +46,22 @@ export default class ZtbVideo extends React.PureComponent {
   render() {
     const {
       className,
-      srcUrl = "https://www.runoob.com/try/demo_source/mov_bbb.mp4",
+      urlSrc = "http://10.66.69.77:8080/hls/mystream.m3u8",
     } = this.props;
     const { playing, voice } = this.state;
 
     return (
       <div className="video-ztb-wrap">
         <div className="video-ztb">
-          <video ref={(refs) => (this.video = refs)} width="100%" muted>
-            <source src={srcUrl} />
+          <video
+            autoplay
+            webkit-playsinline
+            ref={(refs) => (this.video = refs)}
+          >
+            <source
+              src={"http://10.66.69.77:8080/hls/mystream.m3u8"}
+              type="application/vnd.apple.mpegurl"
+            />
           </video>
           {!playing && (
             <div onClick={this.start} className="start-btn">
