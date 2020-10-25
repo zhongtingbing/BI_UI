@@ -22,7 +22,7 @@ export default class ZtbVideo extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      playing: false,
+      playing: true,
       voice: 30,
     };
   }
@@ -31,16 +31,27 @@ export default class ZtbVideo extends React.PureComponent {
     this.video.requestFullscreen();
   };
 
-  start = () => {
+  play = () => {
     this.video.play();
     this.setState({
       playing: true,
     });
   };
 
+  componentDidMount() {
+    this.video.play();
+  }
+
   voiceChange = (voice) => {
     this.setState({ voice });
     this.video.volume = voice / 100;
+  };
+
+  videoClick = () => {
+    this.video.pause();
+    this.setState({
+      playing: false,
+    });
   };
 
   render() {
@@ -49,22 +60,24 @@ export default class ZtbVideo extends React.PureComponent {
       urlSrc = "http://10.66.69.77:8080/hls/mystream.m3u8",
     } = this.props;
     const { playing, voice } = this.state;
+    const testUrl = "https://www.runoob.com/try/demo_source/mov_bbb.mp4";
 
     return (
       <div className="video-ztb-wrap">
         <div className="video-ztb">
           <video
             autoplay
-            webkit-playsinline
+            muted
             ref={(refs) => (this.video = refs)}
+            onClick={this.videoClick}
+            src={urlSrc}
+            playsInline
+            webkit-playsinline
           >
-            <source
-              src={"http://10.66.69.77:8080/hls/mystream.m3u8"}
-              type="application/vnd.apple.mpegurl"
-            />
+            {/* <source src={urlSrc} /> */}
           </video>
           {!playing && (
-            <div onClick={this.start} className="start-btn">
+            <div onClick={this.play} className="start-btn">
               <div />
             </div>
           )}

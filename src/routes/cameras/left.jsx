@@ -13,7 +13,7 @@ class Left extends React.PureComponent {
     };
   }
 
-  titleClick = (index) => {
+  titleClick = (index, id) => {
     const { expendList } = this.state;
     const newList =
       expendList.indexOf(index) === -1
@@ -23,7 +23,7 @@ class Left extends React.PureComponent {
       expendList: newList,
     });
     if (expendList.indexOf(index) === -1) {
-      this.props.onPaClick(index);
+      this.props.onPaClick(index, id);
     }
   };
 
@@ -35,6 +35,7 @@ class Left extends React.PureComponent {
       value,
       onChange,
     } = this.props;
+    console.log(value, "value");
     const { expendList } = this.state;
 
     return (
@@ -79,11 +80,13 @@ class Left extends React.PureComponent {
                 <div
                   className="title1"
                   onClick={() => {
-                    this.titleClick(index);
+                    this.titleClick(index, item.id);
                   }}
                 >
                   <div />
-                  <div>{item.name}</div>
+                  <div className={`${value === item.id ? "check" : ""}`}>
+                    {item.name}
+                  </div>
                   <Icon type={expendList.indexOf(index) > -1 ? "up" : "down"} />
                 </div>
                 <div

@@ -71,7 +71,7 @@ class Index extends React.PureComponent {
       menuValue: "",
       position: "",
       cameriaName: "",
-      pageNo: 0,
+      pageNo: 1,
     };
   }
 
@@ -84,10 +84,12 @@ class Index extends React.PureComponent {
       if (Array.isArray(items) && items.length > 0) {
         sessionStorage.setItem("ProjectId", items[0].id);
       }
-    });
-    getVideoDeviceServive().then((res) => {
-      this.setState({
-        menuData: res.items,
+      getVideoDeviceServive().then((res) => {
+        this.setState({
+          menuData: res.items,
+          position: res.items[0] && res.items[0].name,
+          menuValue: res.items[0] && res.items[0].id,
+        });
       });
     });
   }
@@ -100,27 +102,27 @@ class Index extends React.PureComponent {
     this.setState({ menuValue, position, cameriaName, url, isSingle: true });
   };
 
-  onPaClick = (index) => {
+  onPaClick = (index, id) => {
     const { menuData } = this.state;
     this.setState({
       isSingle: false,
       showIndex: index,
       position: menuData[index].name,
       cameriaName: "",
+      menuValue: id,
     });
   };
 
   onPageChange = (pageNo) => {
-    console.log(pageNo);
-    // this.setState({ pageNo });
+    this.setState({ pageNo: pageNo });
   };
 
   videosRender = () => {
     const { showIndex, radioType, menuData, pageNo } = this.state;
     const pageSize = radioTypeMap1[radioType];
     const showingData = (menuData[showIndex] || { devices: [] }).devices.slice(
-      pageNo * pageSize,
-      (pageNo + 1) * pageSize
+      (pageNo - 1) * pageSize,
+      pageNo * pageSize
     );
     return showingData.map((item, index) => (
       <Video key={index} urlSrc={item.url} />
@@ -136,9 +138,10 @@ class Index extends React.PureComponent {
       url,
       isSingle,
       showIndex,
+      pageNo,
     } = this.state;
-
-    const showingData = menuData[showIndex] || [];
+    const showingItem = menuData[showIndex] || {};
+    const showingData = showingItem.devices || [];
     const pageSize = radioTypeMap1[radioType];
     return (
       <div className={prefixCls}>
@@ -154,7 +157,7 @@ class Index extends React.PureComponent {
           />
           <div className="right">
             <div className="tips">{`当前位置 >  ${position}  ${
-              cameriaName ? ">" : "" + cameriaName
+              cameriaName ? ">" + cameriaName : ""
             }`}</div>
             <div
               className={`radios-wrap ${
@@ -163,14 +166,16 @@ class Index extends React.PureComponent {
             >
               {isSingle ? <Video urlSrc={url} /> : this.videosRender()}
             </div>
-            <div className="page-line">
-              <Pagination
-                defaultCurrent={1}
-                total={showingData.length}
-                pageSize={pageSize}
-                onChange={this.onPageChange}
-              />
-            </div>
+            {!isSingle && (
+              <div className="page-line">
+                <Pagination
+                  current={pageNo}
+                  total={showingData.length}
+                  pageSize={pageSize}
+                  onChange={this.onPageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
