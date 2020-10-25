@@ -4,78 +4,78 @@ import { Router, Switch, Route } from "dva/router";
 import Dynamic from "dva/dynamic";
 
 function RouterConfig({ history, app }) {
-  const executionPage = Dynamic({
-    app,
-    component: () => import("./routes/execution/executionPage"),
-  });
-  const Page01 = Dynamic({
-    app,
-    component: () => import("./routes/supervision/supervisionPage"),
-  });
-  const Page02 = Dynamic({
-    app,
-    component: () => import("./routes/page02"),
-  });
-  const Page03 = Dynamic({
-    app,
-    models: () => [import("./models/main")],
-    component: () => import("./routes/page03"),
-  });
-  const Supervision = Dynamic({
-    app,
-    component: () => import("./routes/supervision/supervisionPage"),
-  });
-  const ProjectOverview = Dynamic({
-    app,
-    component: () => import("./routes/projectOverview/ProjectOverviewPage"),
-  });
-  const WorkersCondition = Dynamic({
-    app,
+  // const executionPage = Dynamic({
+  //   app,
+  //   component: () => import("./routes/execution/executionPage"),
+  // });
+  // const Page01 = Dynamic({
+  //   app,
+  //   component: () => import("./routes/supervision/supervisionPage"),
+  // });
+  // const Page02 = Dynamic({
+  //   app,
+  //   component: () => import("./routes/page02"),
+  // });
+  // const Page03 = Dynamic({
+  //   app,
+  //   models: () => [import("./models/main")],
+  //   component: () => import("./routes/page03"),
+  // });
+  // const Supervision = Dynamic({
+  //   app,
+  //   component: () => import("./routes/supervision/supervisionPage"),
+  // });
+  // const ProjectOverview = Dynamic({
+  //   app,
+  //   component: () => import("./routes/projectOverview/ProjectOverviewPage"),
+  // });
+  // const WorkersCondition = Dynamic({
+  //   app,
 
-    component: () => import("./routes/workersCondition/WorkersConditionPage"),
-  });
+  //   component: () => import("./routes/workersCondition/WorkersConditionPage"),
+  // });
 
-  const SafeInfo = Dynamic({
-    app,
-    component: () => import("./routes/safeInfo/SafeInfoPage"),
-  });
-  const ProcessManagement = Dynamic({
-    app,
-    component: () => import("./routes/processManagement/ProcessManagementPage"),
-  });
-  const SupplyChainMa = Dynamic({
-    app,
-    component: () => import("./routes/supplyChainMa/SupplyChainMaPage"),
-  });
-  const WorkersCondition2 = Dynamic({
-    app,
-    component: () => import("./routes/workersCondition2/WorkersCondition2Page"),
-  });
-  const SafeInfo2 = Dynamic({
-    app,
-    component: () => import("./routes/safeInfo2/SafeInfo2Page"),
-  });
+  // const SafeInfo = Dynamic({
+  //   app,
+  //   component: () => import("./routes/safeInfo/SafeInfoPage"),
+  // });
+  // const ProcessManagement = Dynamic({
+  //   app,
+  //   component: () => import("./routes/processManagement/ProcessManagementPage"),
+  // });
+  // const SupplyChainMa = Dynamic({
+  //   app,
+  //   component: () => import("./routes/supplyChainMa/SupplyChainMaPage"),
+  // });
+  // const WorkersCondition2 = Dynamic({
+  //   app,
+  //   component: () => import("./routes/workersCondition2/WorkersCondition2Page"),
+  // });
+  // const SafeInfo2 = Dynamic({
+  //   app,
+  //   component: () => import("./routes/safeInfo2/SafeInfo2Page"),
+  // });
 
-  const ProcessManagement2 = Dynamic({
-    app,
-    component: () =>
-      import("./routes/processManagement2/ProcessManagement2Page"),
-  });
+  // const ProcessManagement2 = Dynamic({
+  //   app,
+  //   component: () =>
+  //     import("./routes/processManagement2/ProcessManagement2Page"),
+  // });
 
-  const SupplyChainMa2 = Dynamic({
-    app,
-    component: () => import("./routes/supplyChainMa2/SupplyChainMa2Page"),
-  });
+  // const SupplyChainMa2 = Dynamic({
+  //   app,
+  //   component: () => import("./routes/supplyChainMa2/SupplyChainMa2Page"),
+  // });
 
-  const MoreData = Dynamic({
-    app,
-    component: () => import("./routes/moreData/MoreDataPage"),
-  });
+  // const MoreData = Dynamic({
+  //   app,
+  //   component: () => import("./routes/moreData/MoreDataPage"),
+  // });
 
-  const DeviceMoreData = Dynamic({
-    app,
-    component: () => import("./routes/safeInfo/DeviceMoreDataPage"),
-  });
+  // const DeviceMoreData = Dynamic({
+  //   app,
+  //   component: () => import("./routes/safeInfo/DeviceMoreDataPage"),
+  // });
   const Cameras = Dynamic({
     app,
     component: () => import("./routes/cameras"),
