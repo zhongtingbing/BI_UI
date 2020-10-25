@@ -15,6 +15,6 @@ module.exports = function (config, env) {
       components: path.resolve(cwd, "src/components"),
     },
   };
-
+  config.plugins.pop();
   return config;
 };
