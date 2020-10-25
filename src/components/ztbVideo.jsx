@@ -9,14 +9,15 @@ import sxtImg2 from "../assets/image/摄像头 (2).svg";
 import jtImg from "../assets/image/截图.svg";
 import ylImg from "../assets/image/音量.svg";
 import htImg from "../assets/image/话筒.svg";
+import EZUIKit from "ezuikit-js";
 
 import "antd/lib/slider/style/css"; // 加载 CSS
 
-// import "antd/dist/antd.css";
+import "antd/dist/antd.css";
 
 import "./ztbVideo.less";
 
-const prefixCls = "video-ztb";
+// const prefixCls = "video-ztb";
 
 export default class ZtbVideo extends React.PureComponent {
   constructor(props) {
@@ -32,15 +33,42 @@ export default class ZtbVideo extends React.PureComponent {
   };
 
   play = () => {
-    this.video.play();
+    this.player.play();
     this.setState({
       playing: true,
     });
   };
 
   componentDidMount() {
-    this.video.play();
+    const { videoId, accessToken, urlSrc } = this.props;
+    this.initVideo(videoId, accessToken, urlSrc);
   }
+
+  initVideo = (videoId, accessToken, urlSrc) => {
+    this.player = new EZUIKit.EZUIKitPlayer({
+      id: videoId,
+      accessToken,
+      url: urlSrc,
+      audio: 1, // 是否默认开启声音 0 - 关闭 1 - 开启
+      openSoundCallBack: (data) => console.log("开启声音回调", data),
+      closeSoundCallBack: (data) => console.log("关闭声音回调", data),
+      startSaveCallBack: (data) => console.log("开始录像回调", data),
+      stopSaveCallBack: (data) => console.log("录像回调", data),
+      capturePictureCallBack: (data) => console.log("截图成功回调", data),
+      fullScreenCallBack: (data) => console.log("全屏回调", data),
+      getOSDTimeCallBack: (data) => console.log("获取OSDTime回调", data),
+    });
+    this.player.play();
+  };
+
+  // componentWillReceiveProps(nextProps) {
+  //   const { videoId, accessToken, urlSrc } = nextProps;
+  //   if (this.props.videoId !== videoId) {
+  //     setTimeout(() => {
+  //       this.initVideo(videoId, accessToken, urlSrc);
+  //     }, 50);
+  //   }
+  // }
 
   voiceChange = (voice) => {
     this.setState({ voice });
@@ -48,42 +76,27 @@ export default class ZtbVideo extends React.PureComponent {
   };
 
   videoClick = () => {
-    this.video.pause();
+    this.player.stop();
     this.setState({
       playing: false,
     });
   };
 
   render() {
-    const {
-      className,
-      urlSrc = "http://10.66.69.77:8080/hls/mystream.m3u8",
-    } = this.props;
+    const { videoId, title } = this.props;
     const { playing, voice } = this.state;
-    const testUrl = "https://www.runoob.com/try/demo_source/mov_bbb.mp4";
-
+    // console.log(videoId, "videoId");
     return (
       <div className="video-ztb-wrap">
         <div className="video-ztb">
-          <video
-            autoplay
-            muted
-            ref={(refs) => (this.video = refs)}
-            onClick={this.videoClick}
-            src={urlSrc}
-            playsInline
-            webkit-playsinline
-          >
-            {/* <source src={urlSrc} /> */}
-          </video>
+          <div className="video-container" id={videoId}></div>
           {!playing && (
             <div onClick={this.play} className="start-btn">
               <div />
             </div>
           )}
-
           <div className="video-btns">
-            <div className="v-name">东北角001</div>
+            <div className="v-name">{title}</div>
             <div className="v-right">
               <div className="v-tip">延时播放</div>
               <div className="v-tip">回放</div>

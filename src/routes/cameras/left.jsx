@@ -35,7 +35,6 @@ class Left extends React.PureComponent {
       value,
       onChange,
     } = this.props;
-    console.log(value, "value");
     const { expendList } = this.state;
 
     return (
@@ -107,7 +106,8 @@ class Left extends React.PureComponent {
                             child.deviceId,
                             item.name,
                             child.name,
-                            child.url
+                            child.url,
+                            child.accessToken
                           );
                         }}
                       >

@@ -29,44 +29,8 @@ class Index extends React.PureComponent {
       url: "",
       isSingle: false,
       showIndex: 0,
-      menuData: [
-        // {
-        //   value: "围墙",
-        //   id: "01",
-        //   children: [
-        //     {
-        //       value: "东北角1",
-        //       id: "0101",
-        //     },
-        //     {
-        //       value: "东北角2",
-        //       id: "0102",
-        //     },
-        //     {
-        //       value: "东北角3",
-        //       id: "0103",
-        //     },
-        //   ],
-        // },
-        // {
-        //   value: "项目部",
-        //   id: "02",
-        //   children: [
-        //     {
-        //       value: "项目部1",
-        //       id: "0201",
-        //     },
-        //     {
-        //       value: "项目部2",
-        //       id: "0202",
-        //     },
-        //     {
-        //       value: "东项目部3",
-        //       id: "0203",
-        //     },
-        //   ],
-        // },
-      ],
+      accessToken: "",
+      menuData: [],
       radioType: 0,
       menuValue: "",
       position: "",
@@ -76,9 +40,6 @@ class Index extends React.PureComponent {
   }
 
   componentDidMount() {
-    // var myVideo = document.getElementById("video1");
-    // if (myVideo.paused) myVideo.play();
-    // else myVideo.pause();
     getProjectService().then((res) => {
       const { items } = res;
       if (Array.isArray(items) && items.length > 0) {
@@ -92,29 +53,101 @@ class Index extends React.PureComponent {
         });
       });
     });
+    // const res = [
+    //   {
+    //     id: "1319483104331677696",
+    //     name: "围墙2",
+    //     devices: [
+    //       {
+    //         hdUrl: "ezopen://open.ys7.com/E47619067/1.hd.live",
+    //         url: "ezopen://open.ys7.com/E47619067/1.live",
+    //         accessToken:
+    //           "at.2996d07z83ins7gg3hc6z6sxd7nxxv0y-8oi340h86o-1h77o9k-jeo2ktf7c",
+    //         deviceId: "1319967022892277773",
+    //         name: "南城-元美社区",
+    //         sn: "E47619067",
+    //       },
+    //       {
+    //         hdUrl: "ezopen://open.ys7.com/E47619068/1.hd.live",
+    //         url: "ezopen://open.ys7.com/E47619068/1.live",
+    //         accessToken:
+    //           "at.2996d07z83ins7gg3hc6z6sxd7nxxv0y-8oi340h86o-1h77o9k-jeo2ktf7c",
+    //         deviceId: "1319967022892277774",
+    //         name: "莞城-新风路",
+    //         sn: "E47619068",
+    //       },
+    //       {
+    //         hdUrl: "ezopen://open.ys7.com/E47619071/1.hd.live",
+    //         url: "ezopen://open.ys7.com/E47619071/1.live",
+    //         accessToken:
+    //           "at.2996d07z83ins7gg3hc6z6sxd7nxxv0y-8oi340h86o-1h77o9k-jeo2ktf7c",
+    //         deviceId: "1319967022892277775",
+    //         name: "南城-石鼓社区",
+    //         sn: "E47619071",
+    //       },
+    //       {
+    //         hdUrl: "ezopen://open.ys7.com/E47619072/1.hd.live",
+    //         url: "ezopen://open.ys7.com/E47619072/1.live",
+    //         accessToken:
+    //           "at.2996d07z83ins7gg3hc6z6sxd7nxxv0y-8oi340h86o-1h77o9k-jeo2ktf7c",
+    //         deviceId: "1319967022892277776",
+    //         name: "厚街-厚新路",
+    //         sn: "E47619072",
+    //       },
+    //     ],
+    //   },
+    // ];
+
+    // this.setState({ menuData: res });
   }
 
   typeChange = (radioType) => {
     this.setState({ radioType });
   };
 
-  menuValueChange = (menuValue, position, cameriaName, url) => {
-    this.setState({ menuValue, position, cameriaName, url, isSingle: true });
+  menuValueChange = (menuValue, position, cameriaName, url, accessToken) => {
+    this.setState(
+      {
+        menuValue,
+        position,
+        cameriaName,
+        url,
+        accessToken,
+        isSingle: false,
+      },
+      () => {
+        this.setState({
+          isSingle: true,
+        });
+      }
+    );
   };
 
   onPaClick = (index, id) => {
     const { menuData } = this.state;
-    this.setState({
-      isSingle: false,
-      showIndex: index,
-      position: menuData[index].name,
-      cameriaName: "",
-      menuValue: id,
-    });
+    this.setState(
+      {
+        isSingle: true,
+        showIndex: index,
+        position: menuData[index].name,
+        cameriaName: "",
+        menuValue: id,
+        pageNo: 1,
+      },
+      () => {
+        this.setState({
+          isSingle: false,
+        });
+      }
+    );
   };
 
   onPageChange = (pageNo) => {
-    this.setState({ pageNo: pageNo });
+    this.setState({ pageNo: pageNo, isSingle: true }, () => {
+      this.setState({
+        isSingle: false,
+      });
+    });
   };
 
   videosRender = () => {
@@ -125,7 +158,13 @@ class Index extends React.PureComponent {
       pageNo * pageSize
     );
     return showingData.map((item, index) => (
-      <Video key={index} urlSrc={item.url} />
+      <Video
+        key={index}
+        urlSrc={item.url}
+        videoId={item.deviceId}
+        accessToken={item.accessToken}
+        title={item.name}
+      />
     ));
   };
   render() {
@@ -139,6 +178,7 @@ class Index extends React.PureComponent {
       isSingle,
       showIndex,
       pageNo,
+      accessToken,
     } = this.state;
     const showingItem = menuData[showIndex] || {};
     const showingData = showingItem.devices || [];
@@ -164,7 +204,16 @@ class Index extends React.PureComponent {
                 isSingle ? "one" : radioTypeMap[radioType]
               }`}
             >
-              {isSingle ? <Video urlSrc={url} /> : this.videosRender()}
+              {isSingle ? (
+                <Video
+                  urlSrc={url}
+                  videoId={menuValue}
+                  title={cameriaName}
+                  accessToken={accessToken}
+                />
+              ) : (
+                this.videosRender()
+              )}
             </div>
             {!isSingle && (
               <div className="page-line">
