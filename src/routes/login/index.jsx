@@ -101,7 +101,7 @@ class Index extends React.PureComponent {
         {isFirstStep && (
           <div className="down-tip">
             <img
-              onClick={() => {
+              onDoubleClick={() => {
                 this.setState({ isFirstStep: false });
               }}
               src={tipImg}

@@ -39,7 +39,7 @@ export default class Table extends React.PureComponent {
           </div>
         </div>
         <div className={`${cls}-right`}>
-          <img src={weatherImg} />
+          {/* <img src={weatherImg} />
           <div className={`${cls}-right-m`}>
             <div className="top">
               <span>晴转多云</span>
@@ -50,7 +50,7 @@ export default class Table extends React.PureComponent {
           <div className={`${cls}-right-r`}>
             <img src={positonIMg} />
             成都
-          </div>
+          </div> */}
         </div>
       </div>
     );

@@ -22,9 +22,9 @@ class Left extends React.PureComponent {
     this.setState({
       expendList: newList,
     });
-    if (expendList.indexOf(index) === -1) {
-      this.props.onPaClick(index, id);
-    }
+    // if (expendList.indexOf(index) === -1) {
+    this.props.onPaClick(index, id);
+    // }
   };
 
   render() {

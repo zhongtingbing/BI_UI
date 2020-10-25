@@ -102,7 +102,12 @@ class Index extends React.PureComponent {
   }
 
   typeChange = (radioType) => {
-    this.setState({ radioType });
+    const { isSingle } = this.state;
+    this.setState({ radioType, isSingle: !isSingle }, () => {
+      this.setState({
+        isSingle,
+      });
+    });
   };
 
   menuValueChange = (menuValue, position, cameriaName, url, accessToken) => {

@@ -61,15 +61,6 @@ export default class ZtbVideo extends React.PureComponent {
     this.player.play();
   };
 
-  // componentWillReceiveProps(nextProps) {
-  //   const { videoId, accessToken, urlSrc } = nextProps;
-  //   if (this.props.videoId !== videoId) {
-  //     setTimeout(() => {
-  //       this.initVideo(videoId, accessToken, urlSrc);
-  //     }, 50);
-  //   }
-  // }
-
   voiceChange = (voice) => {
     this.setState({ voice });
     this.video.volume = voice / 100;
