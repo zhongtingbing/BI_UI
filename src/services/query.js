@@ -7,6 +7,8 @@ const isDevelopment = process.env.NODE_ENV === "development";
 // export function worksCondition2Service() {
 //   return getJson(`${GLOBAL_GET_URL}/labour/company/labourInfos?${queryStr}`);
 // }
+
+console.log(isDevelopment, "isDevelopment");
 const LoginUrl = isDevelopment
   ? "http://api.site.dev.axlcloud.cn/labor/Account/SignIn"
   : "http://api.labor.axlyun.com/Account/SignIn";

@@ -52,8 +52,8 @@ export default {
       publicPath: "./",
     },
     development: {
-      multipage: false,
-      publicPath: "/",
+      multipage: true,
+      publicPath: "./",
       extraBabelPlugins: ["dva-hmr"],
     },
   },
